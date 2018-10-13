@@ -1,0 +1,131 @@
+var enemy = getNearestEnemy();
+var CellEnemy = getCell(enemy);
+global Leek = getLeek();
+var moi = getLeek();
+var cellMoi = getCell(moi);
+var cellMoiY = getCellY(cellMoi);
+var CellMoiX = getCellX(cellMoi);
+var CellBulbe = getCellFromXY(CellMoiX, cellMoiY - 1);
+var ally = getNearestAlly();
+var vie = getLife();
+var MaxVie = getTotalLife();
+var DistanceME = getCellDistance(cellMoi, CellEnemy);
+
+if (getTurn() == 1) {
+	say("Salutations futur repas!");
+}
+if (getWeapon() == Null) {
+setWeapon(WEAPON_AXE);	
+}
+
+summon(CHIP_PUNY_BULB, CellBulbe, ai);
+//===============================================================================
+function ai () {
+
+var enemy = getNearestEnemy();
+var AllyHealth = getLife(Leek);
+var CellEnemy = getCell(enemy);
+var AllyTotalLife = getTotalLife(Leek);
+var Bulbe = getCell();
+var Distance = getPathLength(Bulbe, CellEnemy);
+var Buble = getLeek();
+
+moveToward(Leek);
+if (AllyTotalLife - AllyHealth >= 20) {	
+   useChip(CHIP_BANDAGE, Leek);
+   }
+   useChip(CHIP_HELMET, Leek);
+   useChip(CHIP_PROTEIN, Buble);
+   useChip(CHIP_PEBBLE, enemy);
+}
+//==============================================================================
+
+if (getTurn() >= 4) {
+useChip(CHIP_WALL, moi);
+useChip(CHIP_PROTEIN, moi);
+useChip(CHIP_SHIELD, moi);	
+}
+useChip(CHIP_MOTIVATION, moi);
+
+if (MaxVie - vie >= 150) {
+	useChip(CHIP_CURE, moi);
+	useChip(CHIP_BANDAGE, moi);
+}
+
+moveTowardCell(getCellToUseWeapon(enemy));
+
+var EnemyRestant = getAliveEnemies();
+var NombreEnemmy = getAliveEnemiesCount();
+var EnemiesCell = [getCell(EnemyRestant[0]), getCell(EnemyRestant[1]), getCell(EnemyRestant[2]), getCell(EnemyRestant[3]), getCell(EnemyRestant[4]), getCell(EnemyRestant[5])];
+
+if (NombreEnemmy == 1) {
+  if (getWeapon() == WEAPON_GRENADE_LAUNCHER) {
+      setWeapon(WEAPON_SHOTGUN);	
+}
+	moveTowardCell(getCellToUseWeapon(enemy));
+	useWeapon(enemy);
+	useWeapon(enemy);
+	useWeapon(enemy);
+} else if (NombreEnemmy == 2) {
+if (DistanceME <= 1) {
+	if (getWeapon() == WEAPON_GRENADE_LAUNCHER) {
+		setWeapon(WEAPON_AXE);
+	}
+useWeapon(enemy);
+useWeapon(enemy);
+useWeapon(enemy);
+}
+var Distance2 = getCellDistance(EnemiesCell[0], EnemiesCell[1]);
+if (Distance2 <= 5) {
+if (getWeapon() == WEAPON_AXE) {
+	setWeapon(WEAPON_GRENADE_LAUNCHER);
+}
+	if (Distance2 <= 3) {
+	moveTowardCell(getCellToUseWeapon(enemy));
+	    useWeapon(enemy);
+		useWeapon(enemy);
+		useWeapon(enemy);
+	}else{
+var Distance2X0 = getCellX(EnemiesCell[0]);
+var Distance2X1 = getCellX(EnemiesCell[1]);
+var Distance2X = round((Distance2X0 + Distance2X1) / 2);
+
+var Distance2Y0 = getCellY(EnemiesCell[0]);
+var Distance2Y1 = getCellY(EnemiesCell[1]);
+var Distance2Y = round((Distance2Y0 + Distance2Y1) / 2);
+var CellTir2 = getCellFromXY(Distance2X, Distance2Y);
+
+moveTowardCell(getCellToUseWeaponOnCell(CellTir2));
+
+useWeaponOnCell(CellTir2);
+useWeaponOnCell(CellTir2);
+useWeaponOnCell(CellTir2);
+debug("Cells X et Y des deux ennemis");
+debug(Distance2X);
+debug(Distance2Y);
+}
+}else{
+	if (getWeapon() == WEAPON_GRENADE_LAUNCHER) {
+		setWeapon(WEAPON_AXE);
+	}
+	moveTowardCell(getCellToUseWeapon(enemy));
+	useWeapon(enemy);
+	useWeapon(enemy);
+	useWeapon(enemy);
+}
+debug("Distance2:");
+debug(Distance2);
+}
+//=============================================================================
+debug("Enemis restants:");
+debug(EnemyRestant[1]);
+debug("Cells des deux ennemis les plus proches");
+debug(EnemiesCell[0]);
+debug(EnemiesCell[1]);
+debug("Nombre d'ennemis:");
+debug(NombreEnemmy);
+debug("Nombres d'opérations");
+debug(getOperations());
+
+debug(getOperations());
+debug(getTP());
