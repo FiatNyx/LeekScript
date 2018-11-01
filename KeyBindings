@@ -1,0 +1,299 @@
+using UnityEngine;
+
+using System.Collections;
+
+using UnityEngine.UI;
+
+
+
+public class CustomKeyChooser : MonoBehaviour
+{
+
+
+
+    Transform menuPanel;
+
+    Event keyEvent;
+
+    Text buttonText;
+
+    KeyCode newKey;
+
+
+
+    bool waitingForKey;
+
+
+
+
+
+    void Start()
+
+    {
+
+        menuPanel = transform.Find("CustomKeysPanels");
+
+        menuPanel.gameObject.SetActive(false);
+
+        waitingForKey = false;
+
+
+        for (int i = 0; i < menuPanel.childCount; i++)
+
+        {
+
+            if (menuPanel.GetChild(i).name == "upP1Key") 
+
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.upP1.ToString();
+
+            else if (menuPanel.GetChild(i).name == "downP1Key")
+
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.downP1.ToString();
+
+            else if (menuPanel.GetChild(i).name == "leftP1Key")
+
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.leftP1.ToString();
+
+            else if (menuPanel.GetChild(i).name == "rightP1Key")
+
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.rightP1.ToString();
+
+            else if (menuPanel.GetChild(i).name == "fireBasicP1")
+
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.fireBasicP1.ToString();
+
+
+            else if (menuPanel.GetChild(i).name == "upP2Key")
+
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.upP2.ToString();
+
+            else if (menuPanel.GetChild(i).name == "downP2Key")
+
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.downP2.ToString();
+
+            else if (menuPanel.GetChild(i).name == "leftP2Key")
+
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.leftP2.ToString();
+
+            else if (menuPanel.GetChild(i).name == "rightP2Key")
+
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.rightP2.ToString();
+
+            else if (menuPanel.GetChild(i).name == "fireBasicP2")
+                menuPanel.GetChild(i).GetComponentInChildren<Text>().text = CustomKeys.GM.fireBasicP2.ToString();
+        }
+
+    }
+
+
+
+
+
+    void Update()
+
+    {
+
+  
+/*
+        if (Input.GetKeyDown(KeyCode.Escape) && !menuPanel.gameObject.activeSelf) { 
+
+            menuPanel.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+              } 
+
+        else if (Input.GetKeyDown(KeyCode.Escape) && menuPanel.gameObject.activeSelf)
+        {
+            menuPanel.gameObject.SetActive(false);
+            Time.timeScale = 1f;
+        }
+
+  */         
+
+    }
+
+
+
+    void OnGUI()
+
+    {
+
+
+        keyEvent = Event.current;
+
+
+        if (keyEvent.isKey && waitingForKey)
+
+        {
+
+            newKey = keyEvent.keyCode; 
+
+            waitingForKey = false;
+
+        }
+
+    }
+
+
+
+
+    public void StartAssignment(string keyName)
+
+    {
+
+        if (!waitingForKey)
+
+            StartCoroutine(AssignKey(keyName));
+
+    }
+
+
+
+    public void SendText(Text text)
+
+    {
+
+        buttonText = text;
+
+    }
+
+
+
+
+    IEnumerator WaitForKey()
+
+    {
+
+        while (!keyEvent.isKey)
+
+            yield return null;
+
+    }
+
+
+    public IEnumerator AssignKey(string keyName)
+
+    {
+
+        waitingForKey = true;
+
+
+
+        yield return WaitForKey(); 
+
+
+
+        switch (keyName)
+
+        {
+
+            case "upP1":
+
+                CustomKeys.GM.upP1 = newKey; 
+
+                buttonText.text = CustomKeys.GM.upP1.ToString(); 
+
+                PlayerPrefs.SetString("upP1Key", CustomKeys.GM.upP1.ToString()); 
+
+                break;
+
+            case "downP1":
+
+                CustomKeys.GM. downP1 = newKey; 
+
+                buttonText.text = CustomKeys.GM.downP1.ToString(); 
+
+                PlayerPrefs.SetString("downP1Key", CustomKeys.GM.downP1.ToString()); 
+
+                break;
+
+            case "leftP1":
+
+                CustomKeys.GM.leftP1 = newKey; 
+
+                buttonText.text = CustomKeys.GM.leftP1.ToString(); 
+
+                PlayerPrefs.SetString("leftP1Key", CustomKeys.GM.leftP1.ToString()); 
+
+                break;
+
+            case "rightP1":
+
+                CustomKeys.GM.rightP1 = newKey; 
+
+                buttonText.text = CustomKeys.GM.rightP1.ToString(); 
+
+                PlayerPrefs.SetString("rightP1Key", CustomKeys.GM.rightP1.ToString()); 
+
+                break;
+
+            case "fireBasicP1":
+
+                CustomKeys.GM.fireBasicP1 = newKey; 
+
+                buttonText.text = CustomKeys.GM.fireBasicP1.ToString(); 
+
+                PlayerPrefs.SetString("fireBasicKeyP1", CustomKeys.GM.fireBasicP1.ToString()); 
+
+                break;
+
+
+
+            case "upP2":
+
+                CustomKeys.GM.upP2 = newKey; 
+
+                buttonText.text = CustomKeys.GM.upP2.ToString(); 
+
+                PlayerPrefs.SetString("upP2Key", CustomKeys.GM.upP2.ToString());
+
+                break;
+
+            case "downP2":
+
+                CustomKeys.GM.downP2 = newKey; 
+
+                buttonText.text = CustomKeys.GM.downP2.ToString(); 
+
+                PlayerPrefs.SetString("downP2Key", CustomKeys.GM.downP2.ToString()); 
+
+                break;
+
+            case "leftP2":
+
+                CustomKeys.GM.leftP2 = newKey; 
+
+                buttonText.text = CustomKeys.GM.leftP2.ToString(); 
+
+                PlayerPrefs.SetString("leftP2Key", CustomKeys.GM.leftP2.ToString()); 
+
+                break;
+
+            case "rightP2":
+
+                CustomKeys.GM.rightP2 = newKey; 
+
+                buttonText.text = CustomKeys.GM.rightP2.ToString(); 
+
+                PlayerPrefs.SetString("rightP2Key", CustomKeys.GM.rightP2.ToString()); 
+
+                break;
+
+            case "fireBasicP2":
+
+                CustomKeys.GM.fireBasicP2 = newKey;
+
+                buttonText.text = CustomKeys.GM.fireBasicP2.ToString(); 
+
+                PlayerPrefs.SetString("fireBasicKeyP2", CustomKeys.GM.fireBasicP2.ToString());
+
+                break;
+
+        }
+
+
+
+        yield return null;
+
+    }
+
+}
